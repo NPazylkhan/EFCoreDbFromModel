@@ -1,6 +1,14 @@
-var builder = WebApplication.CreateBuilder(args);
-var app = builder.Build();
+using (ApplicationContext db = new ApplicationContext())
+{
+    User bob = new User("Bob", 30);
+    User kate = new User("Kate", 29);
+    db.Users.Add(bob);
+    db.Users.Add(kate);
+    db.SaveChanges();
 
-app.MapGet("/", () => "Hello World!");
-
-app.Run();
+    var users = db.Users.ToList();
+    foreach (User user in users)
+    {
+        user.Print();
+    }
+}
